@@ -48,14 +48,11 @@ form.addEventListener('submit', (event) => {
         loader.style.display = 'none';
         signupBtn.disabled = false;
         // console.log("Email sent successfully!", response);
-        alert("Thank you! Your email has been sent...");
         form.reset();
     })
     .catch((error) => {
         loader.style.display = 'none';
         signupBtn.disabled = false;
-        // console.error("Failed to send email:", error);
-        alert("Oops! Something went wrong. Please try again.");
     });
 });
 
