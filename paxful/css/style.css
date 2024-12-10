@@ -101,6 +101,9 @@ form .input_container input{
     font-size: 0.8rem;
     cursor: pointer;
 }
+.input_container .google_auth {
+    margin-top: 1.5rem;
+}
 .btn_container {
     position: relative;
 }
